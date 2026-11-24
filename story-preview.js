@@ -9,7 +9,9 @@ import {createPracticeRecorder} from './practice-recorder.js';
 import {voiceUrl} from './voice-endpoint.js';
 
 const $ = selector => document.querySelector(selector);
-const chapter = new URLSearchParams(location.search).get('story') === 'table' ? 'table' : 'reunion';
+const params = new URLSearchParams(location.search);
+const chapter = params.get('story') === 'table' ? 'table' : 'reunion';
+const showcase = params.get('story') === 'reunion' && params.get('mode') === 'showcase';
 const book = chapters[chapter];
 const key = chapterSaveKey(chapter);
 const defaults = () => chapter==='table'
@@ -17,10 +19,10 @@ const defaults = () => chapter==='table'
  : {node:book.start,songVersion:2,songHits:0,photos:null,photo:null};
 let state = defaults();
 const tableDone=()=>chapterCompleted('table',readChapter(localStorage,'table'));
-const previousTable=chapter==='reunion'?readChapter(localStorage,'table'):null;
-const locked=chapter==='reunion'&&!tableDone()&&!chapterCompleted('reunion',readChapter(localStorage,'reunion'));
+const previousTable=chapter==='reunion'&&!showcase?readChapter(localStorage,'table'):null;
+const locked=chapter==='reunion'&&!showcase&&!tableDone()&&!chapterCompleted('reunion',readChapter(localStorage,'reunion'));
 try {
- const saved = JSON.parse(localStorage.getItem(key));
+ const saved = showcase ? null : JSON.parse(localStorage.getItem(key));
  const resumeAfterMeal=chapter==='reunion'&&saved?.node==='toast';
  if(resumeAfterMeal)saved.node='wait';
  if(chapter==='reunion'&&saved&&saved.songVersion!==2){
@@ -71,6 +73,7 @@ async function listen(){
  });
 }
 function persist(){
+ if(showcase)return;
  try{
   const previous=readChapter(localStorage,chapter);
   if(chapterCompleted(chapter,previous)&&!chapterCompleted(chapter,state))return;
@@ -129,6 +132,10 @@ function showResult(kind){
  const action=$('#result-action');
  action.textContent=final?'回到封面':wait?'前往《今晚搭张台》':'赴团年饭 · 预埋你嗰份';
  action.href=final?'./?street=3d':'?story='+(wait?'table':'reunion');
+ if(showcase && final){
+  action.textContent='回街区，跟街坊聊聊';
+  $('#result-description').textContent='团年相挂好了。回到街区后，去安和楼梯口找阿晴，点麦克风用粤语和她聊聊。';
+ }
  result.hidden=false;result.focus();
 }
 function finishLine(){
@@ -224,7 +231,7 @@ window.addEventListener('pageshow',event=>{
 });
 async function openChapter(){
  if(locked){showResult('locked');return;}
- if(chapter==='reunion'&&tableDone())applyChapterDay(localStorage);
+ if(chapter==='reunion'&&!showcase&&tableDone())applyChapterDay(localStorage);
  const returningToPhoto=chapter==='reunion'&&isPrint(state.photo)&&(state.endingSeen||new URLSearchParams(location.search).has('ending'));
  if(returningToPhoto&&state.portraitVersion===portraitVersion){showResult('finished');return;}
  if(chapter==='table'&&state.node==='morning'&&state.reunionDay){showResult('next-day');return;}
