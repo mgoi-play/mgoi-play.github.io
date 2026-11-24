@@ -1,0 +1,93 @@
+/* UX12: street-world opening. All text and controls remain real HTML. */
+#welcome.landing-stage {
+ position:absolute; inset:0; z-index:20; isolation:isolate;
+ width:100%; height:100%; max-width:none; min-height:0; margin:0; padding:0;
+ display:block; overflow:auto; border:0; border-radius:0; box-shadow:none;
+ background:#163b37; color:#fff1cc; text-align:left; transform:none;
+ --landing-serif:"Noto Serif CJK TC","Songti TC","Noto Serif TC","PMingLiU","SimSun",serif;
+}
+#welcome.landing-stage[hidden]{display:none!important}
+#welcome.landing-stage .landing-scene {
+ position:absolute; inset:0; z-index:-2; pointer-events:none;
+ background:#163b37 url('./assets/hongkong-street-opening.png') center center / cover no-repeat;
+}
+#welcome.landing-stage .landing-shade {
+ position:absolute; inset:0; z-index:-1; pointer-events:none;
+ background:linear-gradient(90deg,#092b2b35,transparent 57%),linear-gradient(0deg,#092b2b55,transparent 24%);
+}
+#welcome.landing-stage .landing-content {
+ min-height:100%; width:62%; padding:clamp(54px,10vh,110px) 0 60px clamp(26px,4.5vw,86px);
+ display:flex; flex-direction:column; align-items:flex-start; gap:clamp(40px,9vh,100px);
+}
+#welcome.landing-stage .landing-heading {text-align:left; padding:0; margin:0;}
+#welcome.landing-stage h1 {
+ margin:0; font-family:var(--landing-serif); font-weight:700;
+ font-size:clamp(48px,6.7vw,120px); line-height:1.25; letter-spacing:.015em;
+ white-space:nowrap; color:#fff1cc; text-shadow:0 2px 16px #09282730;
+}
+#welcome.landing-stage .landing-kicker {
+ display:flex; align-items:center; gap:20px; margin:20px 0 0;
+ color:#f2e6c9; font-family:var(--landing-serif); font-size:clamp(17px,1.9vw,30px);
+ line-height:1.6; letter-spacing:.16em;
+}
+.landing-kicker::before{content:""; width:42px; height:1px; background:#e5d8b5; flex:none;}
+#welcome.landing-stage .landing-actions {
+ display:flex; flex-direction:column; align-items:flex-start; gap:20px;
+ margin:0; width:min(365px,100%); padding:0;
+}
+#welcome.landing-stage .landing-button {
+ min-height:48px; margin:0; border-radius:6px; font:inherit;
+ transition:background .15s,color .15s,border-color .15s; touch-action:manipulation;
+}
+#welcome.landing-stage .landing-button-primary {
+ display:flex; align-items:center; justify-content:space-between; gap:32px;
+ width:100%; padding:15px 28px; min-height:72px;
+ background:#fff0ce; border:1px solid #fff0ce; color:#173c36;
+ font-family:var(--landing-serif); font-size:clamp(25px,2.8vw,40px); font-weight:700; letter-spacing:.08em;
+ box-shadow:0 8px 32px #08282118;
+}
+#welcome.landing-stage .landing-button-primary:hover{background:#fff8e4;border-color:#fff8e4}
+#welcome.landing-stage .landing-button-primary span{margin:0;white-space:nowrap;flex-shrink:0}
+.landing-button-arrow{font-family:system-ui,sans-serif;font-weight:400;letter-spacing:0}
+#welcome.landing-stage .landing-secondary-actions{display:flex;gap:14px;width:100%}
+#welcome.landing-stage .landing-button-secondary {
+ flex:1; padding:9px 18px; background:#1235336b; border:1px solid #eee3c5a6;
+ color:#fff0ce; font-family:var(--landing-serif); font-size:21px; letter-spacing:.06em;
+}
+#welcome.landing-stage .landing-button-secondary:hover{background:#fff0ce1f;border-color:#fff0ce}
+#welcome.landing-stage .landing-chapters {
+ color:#e1d9c3; border:0; background:transparent; padding:5px 0; font-size:14px;
+ min-height:44px; letter-spacing:.08em; text-underline-offset:6px;
+}
+#welcome.landing-stage .landing-chapters:hover{text-decoration:underline;color:#fff8e4;background:transparent}
+#welcome.landing-stage button:focus-visible{outline:3px solid #fff5d6;outline-offset:5px}
+#welcome.landing-stage > small{display:none}
+.at-title #sound-controls{top:max(20px,env(safe-area-inset-top));right:max(22px,env(safe-area-inset-right))}
+.at-title #sound-controls>summary{border:1px solid #fff0ce66;border-radius:6px;background:#12353385;color:#fff0ce}
+@media(max-width:650px),(max-aspect-ratio:4/5) {
+ #welcome.landing-stage .landing-scene{background-position:63% center}
+ #welcome.landing-stage .landing-shade{background:linear-gradient(180deg,#082f30eb 0%,#0d3030ad 24%,#0d303010 46%,#0a2b2b30 57%,#0a2b2be6 83%,#0a2b2bf5 100%)}
+ #welcome.landing-stage .landing-content {
+  width:100%; min-height:100%; padding:clamp(76px,12dvh,110px) 26px max(22px,env(safe-area-inset-bottom));
+  align-items:center; justify-content:space-between; gap:100px;
+ }
+ #welcome.landing-stage .landing-heading{text-align:center;width:100%}
+ #welcome.landing-stage h1{font-size:clamp(37px,9.6vw,68px);line-height:1.3;letter-spacing:0}
+ #welcome.landing-stage .landing-kicker{justify-content:center;font-size:15px;letter-spacing:.13em;margin:14px 0 0;gap:12px}
+ .landing-kicker::before{width:24px}
+ #welcome.landing-stage .landing-actions{width:min(330px,100%);gap:12px}
+ #welcome.landing-stage .landing-button-primary{min-height:60px;padding:12px 24px;font-size:28px}
+ #welcome.landing-stage .landing-button-secondary{font-size:18px;min-height:46px;padding:8px 14px}
+ #welcome.landing-stage .landing-chapters{align-self:center;font-size:13px}
+ .at-title #sound-controls{top:max(12px,env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right))}
+}
+@media(max-height:500px) and (min-width:651px) {
+ #welcome.landing-stage .landing-content{padding:28px 0 20px 4.5vw;gap:24px;width:68%}
+ #welcome.landing-stage h1{font-size:clamp(40px,6vw,62px)}
+ #welcome.landing-stage .landing-kicker{display:flex;font-size:17px;margin-top:8px}
+ #welcome.landing-stage .landing-actions{width:300px;gap:10px}
+ #welcome.landing-stage .landing-button-primary{min-height:52px;padding:8px 20px;font-size:27px}
+ #welcome.landing-stage .landing-button-secondary{font-size:17px;min-height:44px;padding:7px 12px}
+ #welcome.landing-stage .landing-chapters{min-height:36px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){#welcome.landing-stage button{transition:none}}
